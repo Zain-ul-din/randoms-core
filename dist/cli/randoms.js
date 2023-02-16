@@ -36,18 +36,10 @@ class RandomsCLI extends CLI_1.default {
         fs_1.default.writeFileSync('./randoms/server.js', file_content_1.default, "utf8");
     }
     watchFiles() {
-        child_process_1.default.exec(`tsc-watch --rootDir ./src --outDir randoms --onSuccess "randoms generate"`, (err, data) => {
-            if (err)
-                console.log(err);
-            else
-                console.log(data.toString());
-        });
-        child_process_1.default.exec("babel randoms --out-dir randoms", (err, data) => {
-            if (err)
-                console.log(err);
-            else
-                console.log(data.toString());
-        });
+        const watch_process = child_process_1.default.exec(`tsc-watch --rootDir ./src --outDir randoms --onSuccess "randoms generate"`);
+        watch_process.stdout?.on("data", (chunk) => console.log(chunk));
+        const babel_process = child_process_1.default.exec("babel randoms --out-dir randoms");
+        babel_process.stdout?.on("data", (chunk) => console.log(chunk));
     }
     generatorCode() {
         const codeGenerator = new code_generator_1.default();

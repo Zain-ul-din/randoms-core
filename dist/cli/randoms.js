@@ -16,6 +16,10 @@ class RandomsCLI extends CLI_1.default {
         this.production = false;
     }
     runServer() {
+        if (!this.production) {
+            child_process_1.default.exec(`nodemon --exec "node ./randoms/server.js" -e js`);
+            return;
+        }
         child_process_1.default.exec(`node ./randoms/server.js`, (err, data) => {
             if (err)
                 console.log(err);
@@ -55,7 +59,7 @@ class RandomsCLI extends CLI_1.default {
     emitController() {
         this.help();
         switch (this.argument) {
-            case 'dev:build':
+            case 'build':
                 this.production = true;
                 child_process_1.default.exec(`tsc --rootDir ./src --outDir randoms --diagnostics`, (err, data) => {
                     if (err)
@@ -67,6 +71,7 @@ class RandomsCLI extends CLI_1.default {
                 this.createIndexFile();
                 break;
             case 'start':
+                this.production = true;
                 this.runServer();
                 break;
             case 'generate':

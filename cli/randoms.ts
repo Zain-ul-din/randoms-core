@@ -23,6 +23,9 @@ class RandomsCLI extends CLI
             _process.stdout?.on ("data", (chunk)=>{
                 console.log (chunk);
             });
+            _process.stdout?.on ("error", (chunk)=>{
+                console.log (chunk);
+            });
             return;
         }
         child_process.exec (`node ./randoms/server.js`, (err, data)=>{

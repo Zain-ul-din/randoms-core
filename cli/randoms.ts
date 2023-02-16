@@ -19,7 +19,10 @@ class RandomsCLI extends CLI
     {
         if (!this.production)
         {
-            child_process.exec (`nodemon --exec "node ./randoms/server.js" -e js`);
+            const _process = child_process.exec (`nodemon --exec "node ./randoms/server.js" -e js`);
+            _process.stdout?.on ("data", (chunk)=>{
+                console.log (chunk);
+            });
             return;
         }
         child_process.exec (`node ./randoms/server.js`, (err, data)=>{

@@ -1,9 +1,16 @@
 /* Public APIS */
 
-import RandomTS from "./index";
-export = RandomTS;
+import { Route }  from  './lib/RandomsRoute';
+export { useMiddlewares, runServer } from './lib/internals/server';
+export { MiddleWares } from './lib/internals/middlewares';
+export default Route;
 
-
+/* types */
+export type {
+    Request, 
+    Response,
+    NextFunction
+} from 'express';
 
 
 

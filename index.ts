@@ -1,13 +1,6 @@
 /* Public APIS */
 
-import { Route  }  from  './lib/RandomsRoute';
-import { useMiddlewares, runServer } from './lib/internals/server';
-import { MiddleWares } from './lib/internals/middlewares';
-
-export = {
-    Route, useMiddlewares, runServer, MiddleWares
-};
-
-
-
-
+import { Route }  from  './lib/RandomsRoute';
+export { useMiddlewares, runServer } from './lib/internals/server';
+export { MiddleWares } from './lib/internals/middlewares';
+export default Route;

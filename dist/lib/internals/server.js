@@ -49,7 +49,6 @@ function createRoute(routeBase, middleWares, path) {
     const pathToArr = path.split('/');
     const fileName = pathToArr[pathToArr.length - 1];
     let isDynamicRoute = fileName.startsWith("...") || fileName.startsWith(":");
-    console.log(`initializing route on ${path}`);
     if (isDynamicRoute) {
         exports.routers[path] = (0, express_1.Router)();
         middleWares.forEach(mw => exports.routers[path].use(mw));
@@ -70,7 +69,7 @@ function createRoute(routeBase, middleWares, path) {
 }
 exports.createRoute = createRoute;
 ///
-/// Applys middlewares application level middlewars
+/// Apply's middleware's application level middleware's
 ///
 function useMiddlewares(middleWares) {
     middleWares.forEach(mw => app.use(mw));

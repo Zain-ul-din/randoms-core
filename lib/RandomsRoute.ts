@@ -4,10 +4,9 @@ import { initRoute } from './decorators';
 
 export declare namespace Route {
     /* Types */
-    export type { Request} 
+    export type { Request } 
     export type { Response }
     export type { NextFunction }
-    
 }
 
 /* base class for all routes */

@@ -31,8 +31,6 @@ export function createRoute(routeBase:RouteBase,middleWares:MiddleWares, path: s
     const fileName: string = pathToArr [pathToArr.length - 1];
     let isDynamicRoute:boolean = fileName.startsWith ("...") || fileName.startsWith (":");
     
-    console.log (`initializing route on ${path}`);
-
     if (isDynamicRoute)
     {
         routers[path] = Router(); 
@@ -55,7 +53,7 @@ export function createRoute(routeBase:RouteBase,middleWares:MiddleWares, path: s
 }
 
 ///
-/// Applys middlewares application level middlewars
+/// Apply's middleware's application level middleware's
 ///
 export function useMiddlewares (middleWares: MiddleWares): void {
     middleWares.forEach (mw => app.use (mw));

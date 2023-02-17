@@ -1,4 +1,4 @@
-import      child_process   from        'child_process';
+import      child_process, { ChildProcess }   from        'child_process';
 import      CodeGenerator   from        '@randomsts/code-generator';
 import      file_content    from        './file_content';
 import      CONST           from        './constant';
@@ -20,18 +20,11 @@ class RandomsCLI extends CLI
         if (!this.production)
         {
             const _process = child_process.exec (`nodemon --exec "node ./randoms/server.js" -e js`);
-            _process.stdout?.on ("data", (chunk)=>{
-                console.log (chunk);
-            });
-            _process.stdout?.on ("error", (chunk)=>{
-                console.log (chunk);
-            });
+            RandomsCLI.printLogs (_process);
             return;
         }
-        child_process.exec (`node ./randoms/server.js`, (err, data)=>{
-            if (err) console.log (err);
-            else console.log (data.toString());
-        });
+        const _process = child_process.exec (`node ./randoms/server.js`);
+        RandomsCLI.printLogs (_process);
     }
     
     private createIndexFile (): void 
@@ -44,9 +37,9 @@ class RandomsCLI extends CLI
     private watchFiles (): void
     {
         const watch_process = child_process.exec (`tsc-watch --rootDir ./src --outDir randoms --onSuccess "randoms generate"`);
-        watch_process.stdout?.on ("data", (chunk)=> console.log (chunk));
+        RandomsCLI.printLogs (watch_process);
         const babel_process = child_process.exec ("babel randoms --out-dir randoms");
-        babel_process.stdout?.on ("data", (chunk)=> console.log (chunk));
+        RandomsCLI.printLogs (babel_process);
     }
     
     private generatorCode (): void  
@@ -71,10 +64,8 @@ class RandomsCLI extends CLI
         {
             case 'build':
                 this.production = true;
-                child_process.exec (`tsc --rootDir ./src --outDir randoms --diagnostics`, (err, data)=>{
-                    if (err) console.log (err);
-                    else console.log (data.toString());
-                });
+                const build_process = child_process.exec (`tsc --rootDir ./src --outDir randoms --diagnostics`);
+                RandomsCLI.printLogs (build_process);
                 this.generatorCode ();
                 this.createIndexFile ();
             break;
@@ -95,6 +86,12 @@ class RandomsCLI extends CLI
             default:
                 this.help ();    
         }
+    }
+    
+    private static printLogs (curr_process: ChildProcess)
+    {
+        curr_process.stdout?.on ("data", data => console.log (data));
+        curr_process.stderr?.on ("data", err => console.log (err));
     }
 }
 
